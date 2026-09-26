@@ -6,7 +6,7 @@ const projectsRouter = require('./routes/projects');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({origin: 'https://portfolio-frontend-delta-five-80.vercel.app'}));
 app.use(express.json());
 
 // Health check — confirms server + DB are both alive
