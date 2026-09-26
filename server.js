@@ -6,7 +6,21 @@ const projectsRouter = require('./routes/projects');
 
 const app = express();
 
-app.use(cors({origin: 'https://portfolio-frontend-delta-five-80.vercel.app'}));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://portfolio-frontend-delta-five-80.vercel.app',
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like curl or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 app.use(express.json());
 
 // Health check — confirms server + DB are both alive
