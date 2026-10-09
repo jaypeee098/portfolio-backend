@@ -3,25 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
 const projectsRouter = require('./routes/projects');
+const viewsRouter = require('./routes/views');
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://portfolio-frontend-delta-five-80.vercel.app',
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like curl or Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+app.use(cors());
 app.use(express.json());
+app.use('/api/views', viewsRouter);
 
 // Health check — confirms server + DB are both alive
 app.get('/health', async (req, res) => {
